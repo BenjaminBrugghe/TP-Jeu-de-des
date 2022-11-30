@@ -1,18 +1,18 @@
 class Des {
   //Attributs
-  private _valeur: number;
+  private _valeur!: number;
 
   // Méthodes
   /**
-   * Génère un nombre aléatoire entre 1 et 6 (pour simuler un dé standard).
+   * Génère un nombre aléatoire entre 1 et 6 (dé standard).
    * @returns un nombre entre 1 et 6.
    */
-  private lancer(): number {
-    return Math.floor(Math.random() * 6 + 1);
+  public lancer(): number {
+    return Math.floor(Math.random() * (6 - 1) + 1);
   }
 
   // Getter
-  public get valeur() {
+  public get valeurDuDe(): number {
     return this.lancer();
   }
 }
