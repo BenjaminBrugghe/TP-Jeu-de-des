@@ -48,9 +48,9 @@ class Partie {
         joueur.afficherScoreDuJoueur(joueur, joueurs.length);
 
         // Je rajoute les plus grands scores dans un tableau de vainqueurs
-        if (joueur.scoreJoueur >= scoreMaximum) {
+        if (joueur.score >= scoreMaximum) {
           tableauDeVainqueurs.push(joueur);
-          scoreMaximum = joueur.scoreJoueur;
+          scoreMaximum = joueur.score;
         }
 
         // S'il y a plusieurs vainqueurs
@@ -59,10 +59,10 @@ class Partie {
 
           // Je vérifie s'il y a plusieurs scores identiques
           tableauDeVainqueurs.forEach((vainqueur) => {
-            if (vainqueur.scoreJoueur > plusGrandScoreDuTableau) {
-              plusGrandScoreDuTableau = vainqueur.scoreJoueur;
+            if (vainqueur.score > plusGrandScoreDuTableau) {
+              plusGrandScoreDuTableau = vainqueur.score;
               gagnantDeLaManche = vainqueur;
-            } else if (vainqueur.scoreJoueur == plusGrandScoreDuTableau) {
+            } else if (vainqueur.score == plusGrandScoreDuTableau) {
               // Je lance un random "1 ou 2" pour simuler une relance des dés entre les vainqueurs
               let random: number = Math.floor(Math.random() * 2 + 1); // => 1 ou 2
               if (random == 1) {
@@ -90,9 +90,9 @@ class Partie {
    * @param gagnantDeLaManche le gagnant de la manche en cours
    */
   private afficherGagnantDeLaManche(gagnantDeLaManche: Joueur): void {
-    console.log(`${gagnantDeLaManche.nomJoueur} a gagné cette manche !`);
+    console.log(`${gagnantDeLaManche.nom} a gagné cette manche !`);
     console.log(
-      `${gagnantDeLaManche.nomJoueur} a déjà gagné ${gagnantDeLaManche.nombreDeMancheGagnee} manche(s) !`
+      `${gagnantDeLaManche.nom} a déjà gagné ${gagnantDeLaManche.nombreDeMancheGagnee} manche(s) !`
     );
   }
 
@@ -121,14 +121,12 @@ class Partie {
     console.log("---");
     joueurs.forEach((joueur) => {
       console.log(
-        `Nombre de manche(s) gagnée(s) par ${joueur.nomJoueur} : ${joueur.nombreDeMancheGagnee}`
+        `Nombre de manche(s) gagnée(s) par ${joueur.nom} : ${joueur.nombreDeMancheGagnee}`
       );
     });
 
     // Affichage du grand gagnant
-    console.log(
-      `\nLe grand gagnant de la partie est ${gagnantDeLaPartie.nomJoueur}`
-    );
+    console.log(`\nLe grand gagnant de la partie est ${gagnantDeLaPartie.nom}`);
   }
 }
 

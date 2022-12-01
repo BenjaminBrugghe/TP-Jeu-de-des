@@ -5,6 +5,8 @@ class Joueur {
   private _nom: string;
   private _score!: number;
   private _nombreDeMancheGagnee: number = 0;
+  // Instances de classe
+  public gobelet: Gobelet = new Gobelet();
 
   // Constructeur
   constructor(nom: string) {
@@ -12,11 +14,11 @@ class Joueur {
   }
 
   // Getter
-  public get scoreJoueur(): number {
+  public get score(): number {
     return this._score;
   }
 
-  public get nomJoueur(): string {
+  public get nom(): string {
     return this._nom;
   }
 
@@ -33,13 +35,10 @@ class Joueur {
     this._nombreDeMancheGagnee = nouveauNombre;
   }
 
-  // Instances de classe
-  gobeletDuJoueur: Gobelet = new Gobelet();
-
   // Méthodes
   /**
    * Lance le gobelet avec tous les dés
-   * @param gobelet ?
+   * @param gobelet une instance de gobelet
    * @param nombreDeDes Le nombre total de dés
    * @return Le total du gobelet
    */
@@ -55,7 +54,7 @@ class Joueur {
    * @returns le score du joueur
    */
   public afficherScoreDuJoueur(joueur: Joueur, nombreDeDes: number): number {
-    this._score = joueur.jouer(this.gobeletDuJoueur, nombreDeDes);
+    this._score = joueur.jouer(this.gobelet, nombreDeDes);
 
     console.log(`Le score de ${this._nom} est de : ${this._score}`);
 
