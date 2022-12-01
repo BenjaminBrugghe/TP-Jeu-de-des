@@ -3,9 +3,10 @@ import Des from "./Des";
 class Gobelet {
   // Attributs
   private _valeur: number = 0;
+  public De: Des = new Des();
 
   // Getter
-  public get valeurDuGobelet() {
+  public get valeur(): number {
     return this._valeur;
   }
 
@@ -21,17 +22,17 @@ class Gobelet {
    * @return Le total du gobelet.
    */
   public lancer(nombreDeDes: number): number {
-    const De: Des = new Des();
     let total: number = 0;
 
     for (let i = 1; i <= nombreDeDes; i++) {
-      total += De.lancer();
+      total += this.De.lancer();
     }
-    return total;
+    this.valeur = total;
+    return this.valeur;
   }
 
   /**
-   * Affiche le total du gobelet sous forme de chaine de caractères.
+   * Affiche le total du gobelet sous forme de chaine de caractères dans un Console.log
    */
   public afficherScore(nombreDeLances: number): void {
     console.log(`Le total du gobelet est de : ${this.lancer(nombreDeLances)}.`);
