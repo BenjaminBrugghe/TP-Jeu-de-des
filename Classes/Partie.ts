@@ -33,30 +33,50 @@ class Partie {
     for (let i = 1; i <= nombreManches; i++) {
       console.log(`\nManche n°${i} :`);
 
-      let tableauDeScores: number[] = [];
+      let tableauDeVainqueurs: Joueur[] = [];
+      let tableauDeJoueurs: Joueur[] = [];
 
       let scoreMaximum: number = 0;
       let gagnantDeLaManche!: Joueur;
 
-      joueurs.forEach((nouveauJoueur) => {
-        nouveauJoueur = new Joueur(nouveauJoueur.nomJoueur);
-        nouveauJoueur.afficherScoreDuJoueur(nouveauJoueur, joueurs.length);
+      // Je fais jouer chaque joueur 1 par 1
+      joueurs.forEach((joueur) => {
+        joueur = new Joueur(joueur.nomJoueur);
+        joueur.afficherScoreDuJoueur(joueur, joueurs.length);
 
-        if (nouveauJoueur.scoreJoueur > scoreMaximum) {
-          gagnantDeLaManche = nouveauJoueur;
-          scoreMaximum = nouveauJoueur.scoreJoueur;
+        // Je rajoute les plus grands scores dans un tableau de vainqueurs
+        if (joueur.scoreJoueur >= scoreMaximum) {
+          tableauDeVainqueurs.push(joueur);
+          scoreMaximum = joueur.scoreJoueur;
         }
 
-        // *** Rajouter le cas où plusieurs joueurs obtiennent le même score ***
+        // S'il y a plusieurs vainqueurs
+        if (tableauDeVainqueurs.length > 1) {
+          let plusGrandScoreDuTableau: number = 0;
+
+          // Je vérifie s'il y a plusieurs scores identiques
+          tableauDeVainqueurs.forEach((vainqueur) => {
+            if (vainqueur.scoreJoueur > plusGrandScoreDuTableau) {
+              plusGrandScoreDuTableau = vainqueur.scoreJoueur;
+              gagnantDeLaManche = vainqueur;
+            } else if (vainqueur.scoreJoueur == plusGrandScoreDuTableau) {
+              // Je lance un random "1 ou 2" pour simuler une relance des dés entre les vainqueurs
+              let random: number = Math.floor(Math.random() * 2 + 1); // => 1 ou 2
+              if (random == 1) {
+                gagnantDeLaManche = vainqueur;
+              }
+            }
+          });
+        } else {
+          // S'il n'y a qu'un seul vainqueur
+          gagnantDeLaManche = tableauDeVainqueurs[0];
+        }
       });
+
       this.afficherGagnantDeLaManche(gagnantDeLaManche); // A mettre dans index.ts ?
     }
   }
 
-  /**
-   * Affiche le nom du gagnant de la manche sous forme de String dans un Console.log
-   * @param gagnantDeLaManche le gagnant de la manche
-   */
   private afficherGagnantDeLaManche(gagnantDeLaManche: Joueur): void {
     console.log(`${gagnantDeLaManche.nomJoueur} a gagné cette manche !`);
   }
