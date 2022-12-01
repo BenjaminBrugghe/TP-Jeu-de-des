@@ -5,6 +5,11 @@ class Partie {
   // Attributs
   private _nombreDeManches!: number;
 
+  // Getter
+  public get nombreDeManches(): number {
+    return this._nombreDeManches;
+  }
+
   // Setter
   public set nombreDeManches(nombre: number) {
     this._nombreDeManches = nombre;
@@ -15,7 +20,7 @@ class Partie {
 
   // Méthodes
   /**
-   * Initialise le nombre de joueurs et de manches pour la partie
+   * *** Ne sert à rien pour le moment ***
    */
   public initialiserPartie(): void {
     this.nombreDeManches = 4;
@@ -25,23 +30,21 @@ class Partie {
   }
 
   /**
-   * Lance la partie
-   * @param nombreManches le nombre de manches dans la partie
-   * @param joueurs le nombre de joueurs
+   * Lance la partie, affiche leur score et le vainqueur pour chaque manche
+   * @param nombreManches le nombre de manches qu'on veut jouer
+   * @param joueurs les joueurs pour la partie
    */
   public lancerPartie(nombreManches: number, ...joueurs: Joueur[]): void {
     for (let i = 1; i <= nombreManches; i++) {
       console.log(`\nManche n°${i} :`);
 
       let tableauDeVainqueurs: Joueur[] = [];
-      let tableauDeJoueurs: Joueur[] = [];
 
       let scoreMaximum: number = 0;
       let gagnantDeLaManche!: Joueur;
 
       // Je fais jouer chaque joueur 1 par 1
       joueurs.forEach((joueur) => {
-        joueur = new Joueur(joueur.nomJoueur);
         joueur.afficherScoreDuJoueur(joueur, joueurs.length);
 
         // Je rajoute les plus grands scores dans un tableau de vainqueurs
@@ -73,18 +76,59 @@ class Partie {
         }
       });
 
-      this.afficherGagnantDeLaManche(gagnantDeLaManche); // A mettre dans index.ts ?
+      // Je rajoute 1 au nombre de manche(s) gagnée(s) du vainqueur
+      gagnantDeLaManche.nombreDeMancheGagnee =
+        gagnantDeLaManche.nombreDeMancheGagnee + 1;
+
+      // J'affiche le gagnant de la manche
+      this.afficherGagnantDeLaManche(gagnantDeLaManche);
     }
   }
 
+  /**
+   * Affiche qui a gagné la manche en cours, et son nombre de victoires totales sous forme de String dans un Console.log
+   * @param gagnantDeLaManche le gagnant de la manche en cours
+   */
   private afficherGagnantDeLaManche(gagnantDeLaManche: Joueur): void {
     console.log(`${gagnantDeLaManche.nomJoueur} a gagné cette manche !`);
+    console.log(
+      `${gagnantDeLaManche.nomJoueur} a déjà gagné ${gagnantDeLaManche.nombreDeMancheGagnee} manche(s) !`
+    );
   }
 
-  public afficherGagnantDeLaPartie(): void {
-    // Rajouter un attribut "nbManchesGagnées" avec get et set
-    // Ajouter +1 à chaque fois qu'un joueur gagne
-    // Comparer ces valeurs pour déterminer le gagnant de la partie
+  /**
+   * Compare le nombre de manches gagnées par chaque joueur et affiche le gagnant sous forme de String dans un Console.log
+   * @param joueurs les joueurs de la partie
+   */
+  public afficherGagnantDeLaPartie(...joueurs: Joueur[]): void {
+    let gagnantDeLaPartie!: Joueur;
+    let scoreMax: number = 0;
+
+    joueurs.forEach((joueur) => {
+      if (joueur.nombreDeMancheGagnee > scoreMax) {
+        scoreMax = joueur.nombreDeMancheGagnee;
+        gagnantDeLaPartie = joueur;
+      } else if (joueur.nombreDeMancheGagnee == scoreMax) {
+        // Je lance un random "1 ou 2" pour simuler une relance des dés entre les vainqueurs
+        let random: number = Math.floor(Math.random() * 2 + 1); // => 1 ou 2
+        if (random == 1) {
+          gagnantDeLaPartie = joueur;
+        }
+      }
+    });
+
+    // Affichage du nombre de manche(s) gagnée(s) par chaque joueur
+    console.log("---");
+    joueurs.forEach((joueur) => {
+      console.log(
+        `Nombre de manche(s) gagnée(s) par ${joueur.nomJoueur} : ${joueur.nombreDeMancheGagnee}`
+      );
+    });
+
+    // Affichage du grand gagnant
+    console.log(
+      `\nLe grand gagnant de la partie est ${gagnantDeLaPartie.nomJoueur}`
+    );
   }
 }
 

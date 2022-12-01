@@ -4,6 +4,7 @@ class Joueur {
   // Attributs
   private _nom: string;
   private _score!: number;
+  private _nombreDeMancheGagnee: number = 0;
 
   // Constructeur
   constructor(nom: string) {
@@ -19,9 +20,17 @@ class Joueur {
     return this._nom;
   }
 
+  public get nombreDeMancheGagnee(): number {
+    return this._nombreDeMancheGagnee;
+  }
+
   // Setter
   public set score(nouveauScore: number) {
     this._score = nouveauScore;
+  }
+
+  public set nombreDeMancheGagnee(nouveauNombre: number) {
+    this._nombreDeMancheGagnee = nouveauNombre;
   }
 
   // Instances de classe
