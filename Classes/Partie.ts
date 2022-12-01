@@ -4,6 +4,8 @@ import Joueur from "./Joueur";
 class Partie {
   // Attributs
   private _nombreDeManches!: number;
+  // Instances de classes
+  gobelet: Gobelet = new Gobelet();
 
   // Getter
   public get nombreDeManches(): number {
@@ -14,9 +16,6 @@ class Partie {
   public set nombreDeManches(nombre: number) {
     this._nombreDeManches = nombre;
   }
-
-  // Instances de classes
-  gobelet: Gobelet = new Gobelet();
 
   // Méthodes
   /**
