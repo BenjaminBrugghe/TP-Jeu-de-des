@@ -18,7 +18,7 @@ class Des {
    * @returns un nombre entre 1 et 6.
    */
   public lancer(): number {
-    this._valeur = Math.floor(Math.random() * (6 - 1) + 1);
+    this._valeur = Math.floor(Math.random() * 6 + 1);
     return this._valeur;
   }
 }
