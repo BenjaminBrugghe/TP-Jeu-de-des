@@ -29,7 +29,7 @@ class Partie {
   }
 
   /**
-   * Lance la partie, affiche leur score et le vainqueur pour chaque manche
+   * Lance la partie, affiche le score de chaque joueur et le vainqueur pour chaque manche
    * @param nombreManches le nombre de manches qu'on veut jouer
    * @param joueurs les joueurs pour la partie
    */
@@ -38,7 +38,6 @@ class Partie {
       console.log(`\nManche n°${i} :`);
 
       let tableauDeVainqueurs: Joueur[] = [];
-
       let scoreMaximum: number = 0;
       let gagnantDeLaManche!: Joueur;
 
@@ -54,21 +53,10 @@ class Partie {
 
         // S'il y a plusieurs vainqueurs
         if (tableauDeVainqueurs.length > 1) {
-          let plusGrandScoreDuTableau: number = 0;
-
-          // Je vérifie s'il y a plusieurs scores identiques
-          tableauDeVainqueurs.forEach((vainqueur) => {
-            if (vainqueur.score > plusGrandScoreDuTableau) {
-              plusGrandScoreDuTableau = vainqueur.score;
-              gagnantDeLaManche = vainqueur;
-            } else if (vainqueur.score == plusGrandScoreDuTableau) {
-              // Je lance un random "1 ou 2" pour simuler une relance des dés entre les vainqueurs
-              let random: number = Math.floor(Math.random() * 2 + 1); // => 1 ou 2
-              if (random == 1) {
-                gagnantDeLaManche = vainqueur;
-              }
-            }
-          });
+          gagnantDeLaManche = this.verifierScoresIdentiques(
+            tableauDeVainqueurs,
+            gagnantDeLaManche
+          );
         } else {
           // S'il n'y a qu'un seul vainqueur
           gagnantDeLaManche = tableauDeVainqueurs[0];
@@ -85,6 +73,33 @@ class Partie {
   }
 
   /**
+   * Vérifie si plusieurs joueurs obtiennent le même score pour une manche,
+   * simule une nouvelle manche pour les départager et retourne le gagnant
+   * @param tableauDeVainqueurs tableau contenant les plus grands scores
+   * @param gagnantDeLaManche le gagnant de la manche (non initialisé)
+   * @returns le gagnant de la manche
+   */
+  private verifierScoresIdentiques(
+    tableauDeVainqueurs: Joueur[],
+    gagnantDeLaManche: Joueur
+  ): Joueur {
+    let plusGrandScoreDuTableau: number = 0;
+    tableauDeVainqueurs.forEach((vainqueur) => {
+      if (vainqueur.score > plusGrandScoreDuTableau) {
+        plusGrandScoreDuTableau = vainqueur.score;
+        gagnantDeLaManche = vainqueur;
+      } else if (vainqueur.score == plusGrandScoreDuTableau) {
+        // Je lance un random "1 ou 2" pour simuler une relance des dés entre les vainqueurs
+        let random: number = Math.floor(Math.random() * 2 + 1); // => 1 ou 2
+        if (random == 1) {
+          gagnantDeLaManche = vainqueur;
+        }
+      }
+    });
+    return gagnantDeLaManche;
+  }
+
+  /**
    * Affiche qui a gagné la manche en cours, et son nombre de victoires totales sous forme de String dans un Console.log
    * @param gagnantDeLaManche le gagnant de la manche en cours
    */
@@ -96,7 +111,8 @@ class Partie {
   }
 
   /**
-   * Compare le nombre de manches gagnées par chaque joueur et affiche le gagnant sous forme de String dans un Console.log
+   * Compare le nombre de manches gagnées par chaque joueur.
+   * Si égalité, simule une nouvelle manche et affiche le gagnant sous forme de String dans un Console.log
    * @param joueurs les joueurs de la partie
    */
   public afficherGagnantDeLaPartie(...joueurs: Joueur[]): void {
