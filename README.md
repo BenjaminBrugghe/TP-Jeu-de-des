@@ -1,7 +1,8 @@
 # Le jeu de dés
 
-Ceci est un TP réalisé pendant ma formation "Developpeur Front-End" chez IB-group.
-Il avait pour but de travailler la POO en TypeScript.
+Ceci est un TP réalisé pendant ma formation "Developpeur Front-End" chez IB-group.  
+Il avait pour but de travailler la POO en TypeScript.  
+L'énoncé est visible dans le fichier "DiceGame-Coq.pdf"
 
 ## Dépendances
 
